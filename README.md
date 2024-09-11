@@ -40,6 +40,7 @@ void main() async {
 ```
 
 3. Import and initialize `UnifiedNotification` and `UnifiedAuthentication` in your app.
+
 ```
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,7 +65,7 @@ void main() async {
 }
 ```
 
-## Authentication Examples 
+## Authentication Examples
 
 ### Phone & OTP Login
 
@@ -175,8 +176,7 @@ try {
   }
 ```
 
-
-## Notification Examples 
+## Notification Examples
 
 ### Get FCM Token
 
@@ -184,7 +184,7 @@ The `getFcmToken` method retrieves the `Firebase Cloud Messaging (FCM) token` an
 
 ```
   FcmDeviceInfoModel? deviceInfo = await notificationService.getFcmToken();
-  
+
   // Print FCM token and device details
   if (deviceInfo != null) {
     print('FCM Token: ${deviceInfo.fcmToken}');
@@ -207,3 +207,17 @@ The `showNotification` method is used to display a local notification.
     body: 'This is a test notification body', // Notification body
   );
 ```
+
+## More About the Package
+
+UnifiedAccess simplifies the integration of Firebase Authentication and Notification services, ensuring you only need to set up once, reducing the need for multiple dependencies. It’s designed for developers who want to streamline user authentication and push notifications, especially for apps that require multiple sign-in options and local/FCM notifications.
+
+By using UnifiedAccess, you eliminate the complexity of handling various authentication and notification services individually, allowing you to focus on building amazing features in your app.
+
+You are more than welcome to contribute to this package.
+
+## Developed by:
+
+![Mask type](https://wsrv.nl/?url=https://github.com/dewbambs/flutter_pinelab_peripheralappservice/assets/97099753/63b172ce-8bec-44c2-981c-55dab7389ecb&w=80&h=80&fit=cover&mask=circle)
+
+Yash Vardhan
