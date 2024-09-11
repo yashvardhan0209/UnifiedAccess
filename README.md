@@ -116,6 +116,23 @@ try {
   }
 ```
 
+### Send Password Reset Email
+
+This example demonstrates how to use the UnifiedAuthentication class to perform Firebase Password Reset Email.
+
+```
+try {
+    // Replace with the user's email who wants to reset their password
+    String email = 'user@example.com';
+
+    await auth.sendPasswordResetEmail(email: email);
+    print('Password reset email sent to $email');
+  } catch (e) {
+    // Handle any errors that occur during the process
+    print('Failed to send password reset email: $e');
+  }
+```
+
 ### Google Login
 
 This example demonstrates how to use the UnifiedAuthentication class to perform Firebase Google Login.
