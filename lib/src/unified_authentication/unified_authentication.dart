@@ -9,8 +9,8 @@ import 'package:unified_access/src/firebase_exception.dart';
 
 class UnifiedAuthentication {
   /// Singleton instance of UnifiedAuthentication
-  factory UnifiedAuthentication({required FirebaseAuth auth}) {
-    _singleton.auth = auth;
+  factory UnifiedAuthentication() {
+    _singleton.auth = FirebaseAuth.instance;
     return _singleton;
   }
 
