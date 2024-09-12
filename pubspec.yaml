@@ -1,8 +1,10 @@
 name: unified_access
-description: UnifiedAccess is a comprehensive Flutter package designed to simplify the integration of multiple authentication methods within your app. By consolidating Firebase Authentication and various social media logins (such as Google, Facebook, Twitter, and more) under one unified solution, this package eliminates the need for multiple dependencies, streamlining the development process. With UnifiedAccess, developers can easily implement secure, scalable, and flexible user authentication with minimal setup, making it an ideal solution for projects of any size. Whether you’re building a startup app or a production-scale application, UnifiedAccess ensures a smooth authentication experience for both developers and users alike.
-version: 1.0.0
-# homepage: git@github.com:yashvardhan0209/UnifiedAccess.git
-# repository: git@github.com:yashvardhan0209/UnifiedAccess.git
+description: Designed to simplify the integration of multiple authentication methods and notification services within your app.
+version: 1.0.1
+homepage: https://github.com/yashvardhan0209/UnifiedAccess.git
+platforms:
+  android:
+  ios:
 
 environment:
   sdk: ^3.5.2

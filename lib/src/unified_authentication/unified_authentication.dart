@@ -43,6 +43,7 @@ class UnifiedAuthentication {
   /// Firebase phone number verification method.
   ///
   /// Verifies the provided [phoneNumber] and triggers [codeSent] when a code is sent.
+  /// Make sure to provided [phoneNumber] along with country code.
   /// It also handles optional callbacks for [verificationCompleted], [verificationFailed], and [codeAutoRetrievalTimeout].
   /// Throws [FirebaseAuthenticationException] for invalid phone numbers or authentication failures.
   Future<void> verifyPhoneNumber({
@@ -54,14 +55,8 @@ class UnifiedAuthentication {
     PhoneCodeAutoRetrievalTimeout? codeAutoRetrievalTimeout,
     int? forceResendingToken,
   }) async {
-    if (phoneNumber.length != 10) {
-      throw FirebaseAuthenticationException(
-        message: FirebaseExceptionMessage.invalidPhoneNumber,
-      );
-    }
-
     await auth.verifyPhoneNumber(
-      phoneNumber: '+91$phoneNumber',
+      phoneNumber: phoneNumber,
       timeout: timeout ?? const Duration(seconds: 60),
       verificationCompleted:
           verificationCompleted ?? defaultVerificationCompleted,

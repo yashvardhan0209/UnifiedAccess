@@ -26,7 +26,7 @@ Before using this package, ensure you have:
 
 ```
    dependencies:
-     unified_auth_notify: ^1.0.0
+     unified_access: ^1.0.0
 ```
 
 2. Initialize Firebase in your `main.dart`:
@@ -42,6 +42,8 @@ void main() async {
 3. Import and initialize `UnifiedNotification` and `UnifiedAuthentication` in your app.
 
 ```
+import 'package:unified_access/unified_access.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -73,7 +75,7 @@ This example demonstrates how to use the UnifiedAuthentication class to perform 
 
 ```
 await auth.verifyPhoneNumber(
-    phoneNumber: '1234567890',
+    phoneNumber: '+911234567890', // country code + phone number
     codeSent: (String verificationId, [int? forceResendingToken]) {
       final verificationId = verificationId;
       // Handle code sent (e.g., show an OTP input field)
