@@ -1,6 +1,7 @@
-/// Support for doing something awesome.
+/// UnifiedAccess - Simplified Firebase authentication and notification management.
 ///
-/// More dartdocs go here.
+/// Integrates multiple authentication methods (phone, email, Google, Apple, Facebook)
+/// and provides unified notification services (local + FCM) under a single package.
 library;
 
 export 'package:device_info_plus/device_info_plus.dart';
@@ -18,5 +19,4 @@ export 'package:the_apple_sign_in/the_apple_sign_in.dart';
 
 export 'src/unified_authentication/unified_authentication.dart';
 export 'src/unified_notification/unified_notification.dart';
-export 'src/firebase_exception.dart' show FirebaseAuthenticationException;
-
+export 'src/firebase_exception.dart';

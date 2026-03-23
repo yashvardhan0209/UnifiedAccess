@@ -12,21 +12,62 @@ This package provides the following functionalities:
 - Retrieve device information and FCM tokens.
 - Customizable notification click callbacks for user interactions.
 
+## Quick Setup (Automated)
+
+The package includes a CLI tool that automatically configures your Android and iOS platform files.
+
+**1. Add the package to your `pubspec.yaml`:**
+
+```
+dependencies:
+  unified_access: ^2.0.0
+```
+
+**2. Run the setup tool:**
+
+```
+dart run unified_access:setup
+```
+
+The tool will interactively ask which features you need (Google Sign-In, Facebook Login, Apple Sign-In, Push Notifications) and automatically:
+
+- Patch `AndroidManifest.xml` with required permissions and metadata
+- Update `build.gradle` with correct `minSdkVersion` and Firebase plugins
+- Patch `Info.plist` with background modes, URL schemes, and provider config
+- Update `Podfile` with the minimum iOS version
+- Create `strings.xml` for Facebook configuration (if enabled)
+
+**Validate your current setup without making changes:**
+
+```
+dart run unified_access:setup --check
+```
+
+**Show detailed output:**
+
+```
+dart run unified_access:setup --verbose
+```
+
+After running the tool, follow the remaining manual steps it prints (downloading Firebase config files, enabling Xcode capabilities, etc.).
+
 ## Prerequisites
 
 Before using this package, ensure you have:
 
 1. **Firebase setup**: Add Firebase to your Flutter project. For more details, follow the official Firebase setup guide for [Flutter](https://firebase.flutter.dev/docs/overview).
 2. **Google, Facebook, and Apple Sign-In Configuration**: Set up Google, Facebook, and Apple sign-in services in your Firebase console.
-3. **Permissions**: Ensure your Android and iOS apps request the necessary permissions for notifications and authentication.
+3. **Permissions**: Run `dart run unified_access:setup` to automatically configure permissions, or manually ensure your Android and iOS apps request the necessary permissions for notifications and authentication.
 
-## How to Use
+## Manual Setup
+
+If you prefer to configure everything manually instead of using the setup tool:
 
 1. Add the package to your `pubspec.yaml`:
 
 ```
    dependencies:
-     unified_access: ^1.0.0
+     unified_access: ^2.0.0
 ```
 
 2. Initialize Firebase in your `main.dart`:
@@ -55,9 +96,9 @@ void main() async {
   UnifiedNotification notificationService = UnifiedNotification();
 
   await notificationService.init(
-    onOpenNotification: () {
+    onOpenNotification: (message) {
       // Custom logic when a notification is clicked
-      print('Notification clicked');
+      print('Notification clicked: ${message?.messageId}');
     },
     defaultIcon: 'app_icon', // Provide your app icon
     enableCloudMessaging: true, // Enable Firebase Cloud Messaging

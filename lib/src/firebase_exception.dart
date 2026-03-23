@@ -51,6 +51,30 @@ class FirebaseExceptionMessage {
   static const String invalidVerificationId =
       'Unable to verify user. Please login again.';
 
+  /// Error message when email is already registered
+  static const String emailAlreadyInUse =
+      'This email is already registered. Please sign in or use a different email.';
+
+  /// Error message for weak password during registration
+  static const String weakPassword =
+      'Password is too weak. Please use a stronger password.';
+
+  /// Error message when too many requests are sent
+  static const String tooManyRequests =
+      'Too many requests. Please try again later.';
+
+  /// Error message for network failure
+  static const String networkRequestFailed =
+      'Network error. Please check your internet connection and try again.';
+
+  /// Error message when recent login is required for sensitive operations
+  static const String requiresRecentLogin =
+      'This operation requires recent login. Please sign in again and retry.';
+
+  /// Error message when account exists with a different credential
+  static const String accountExistsWithDifferentCredential =
+      'An account already exists with the same email but a different sign-in method.';
+
   /// Error message for unknown or unhandled errors
   static const String unknownError =
       'Unknown Error! Please contact admin for details.';
@@ -59,21 +83,26 @@ class FirebaseExceptionMessage {
 /// FirebaseAuthenticationException class
 ///
 /// Custom exception class for handling Firebase authentication-related errors.
-/// It stores the error [message] and an optional [stackTrace] for debugging.
+/// It stores the error [message], a machine-readable [code] for programmatic
+/// error handling, and an optional [stackTrace] for debugging.
 class FirebaseAuthenticationException implements Exception {
-  /// Constructor to initialize the exception with a [message] and optional [stackTrace]
+  /// Constructor to initialize the exception with a [message], optional [code], and optional [stackTrace]
   FirebaseAuthenticationException({
     required this.message,
+    this.code,
     this.stackTrace,
   });
 
   /// Error message describing the exception
   final String message;
 
+  /// Machine-readable error code for programmatic handling (e.g., 'user-not-found')
+  final String? code;
+
   /// Optional stack trace for debugging purposes
   final StackTrace? stackTrace;
 
   /// Overrides the `toString` method to provide a formatted exception message and stack trace
   @override
-  String toString() => 'Message - $message \n StackTrace - $stackTrace';
+  String toString() => 'FirebaseAuthenticationException($code): $message';
 }
