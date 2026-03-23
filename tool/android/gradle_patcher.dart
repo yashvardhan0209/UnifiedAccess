@@ -37,7 +37,8 @@ class GradlePatcher {
         modified = true;
       } else {
         _logger.warning(
-            'Could not add multiDexEnabled. Add it manually inside defaultConfig {}');
+          'Could not add multiDexEnabled. Add it manually inside defaultConfig {}',
+        );
       }
     } else {
       _logger.detail('multiDexEnabled already present');
@@ -76,7 +77,8 @@ class GradlePatcher {
 
     if (content.contains('com.google.gms:google-services')) {
       _logger.detail(
-          'google-services classpath already present in project build.gradle');
+        'google-services classpath already present in project build.gradle',
+      );
       return;
     }
 
@@ -85,8 +87,10 @@ class GradlePatcher {
     result.addBackup(backupPath);
 
     // Try to find the buildscript dependencies block
-    final depsPattern =
-        RegExp(r'buildscript\s*\{[^}]*dependencies\s*\{', dotAll: true);
+    final depsPattern = RegExp(
+      r'buildscript\s*\{[^}]*dependencies\s*\{',
+      dotAll: true,
+    );
     final match = depsPattern.firstMatch(content);
 
     if (match != null) {
@@ -94,14 +98,17 @@ class GradlePatcher {
       final classpath = isKotlinDsl
           ? '\n        classpath("com.google.gms:google-services:4.4.0")'
           : "\n        classpath 'com.google.gms:google-services:4.4.0'";
-      content = content.substring(0, insertPos) +
+      content =
+          content.substring(0, insertPos) +
           classpath +
           content.substring(insertPos);
       file.writeAsStringSync(content);
-      _logger
-          .success('Added google-services classpath to project build.gradle');
-      result
-          .addChange('android/build.gradle - Added google-services classpath');
+      _logger.success(
+        'Added google-services classpath to project build.gradle',
+      );
+      result.addChange(
+        'android/build.gradle - Added google-services classpath',
+      );
     } else {
       _logger.warning(
         'Could not locate buildscript dependencies in project build.gradle. '
@@ -152,7 +159,8 @@ class GradlePatcher {
 
     _logger.success('Created/updated strings.xml with Facebook configuration');
     result.addChange(
-        'android strings.xml - Added Facebook App ID and Client Token');
+      'android strings.xml - Added Facebook App ID and Client Token',
+    );
   }
 
   String _patchMinSdkVersion(
@@ -167,8 +175,9 @@ class GradlePatcher {
     if (match != null) {
       final currentVersion = int.tryParse(match.group(2)!);
       if (currentVersion != null && currentVersion < 21) {
-        final replacement =
-            isKotlinDsl ? '${match.group(1)} = 21' : '${match.group(1)} 21';
+        final replacement = isKotlinDsl
+            ? '${match.group(1)} = 21'
+            : '${match.group(1)} 21';
         content = content.replaceFirst(match.group(0)!, replacement);
         onModified('Updated minSdkVersion from $currentVersion to 21');
       }

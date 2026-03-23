@@ -217,10 +217,7 @@ void main() {
     test('does not throw', () {
       // PhoneAuthCredential can't be easily constructed, but we can use Fake
       authService.defaultVerificationCompleted(
-        PhoneAuthProvider.credential(
-          verificationId: 'vid',
-          smsCode: '123456',
-        ),
+        PhoneAuthProvider.credential(verificationId: 'vid', smsCode: '123456'),
       );
     });
   });
@@ -283,18 +280,18 @@ void main() {
           verificationId: 'vid',
         ),
         throwsA(
-          isA<FirebaseAuthenticationException>()
-              .having((e) => e.code, 'code', 'invalid-otp'),
+          isA<FirebaseAuthenticationException>().having(
+            (e) => e.code,
+            'code',
+            'invalid-otp',
+          ),
         ),
       );
     });
 
     test('throws when OTP is empty', () {
       expect(
-        () => authService.authenticateWithOTP(
-          otp: '',
-          verificationId: 'vid',
-        ),
+        () => authService.authenticateWithOTP(otp: '', verificationId: 'vid'),
         throwsA(isA<FirebaseAuthenticationException>()),
       );
     });
@@ -320,8 +317,11 @@ void main() {
           verificationId: 'vid',
         ),
         throwsA(
-          isA<FirebaseAuthenticationException>()
-              .having((e) => e.code, 'code', 'invalid-credential'),
+          isA<FirebaseAuthenticationException>().having(
+            (e) => e.code,
+            'code',
+            'invalid-credential',
+          ),
         ),
       );
     });
@@ -398,10 +398,7 @@ void main() {
       fakeAuth.createUserErrorCode = 'weak-password';
 
       expect(
-        () => authService.emailSignUp(
-          email: 'test@example.com',
-          password: '1',
-        ),
+        () => authService.emailSignUp(email: 'test@example.com', password: '1'),
         throwsA(
           isA<FirebaseAuthenticationException>()
               .having((e) => e.code, 'code', 'weak-password')
@@ -535,8 +532,11 @@ void main() {
       expect(
         () => authService.signInWithGoogle(),
         throwsA(
-          isA<FirebaseAuthenticationException>()
-              .having((e) => e.code, 'code', 'invalid-credential'),
+          isA<FirebaseAuthenticationException>().having(
+            (e) => e.code,
+            'code',
+            'invalid-credential',
+          ),
         ),
       );
     });
@@ -563,9 +563,8 @@ void main() {
 
     test('throws on error status', () {
       UnifiedAuthentication.setSocialProvidersForTesting(
-        applePerformRequests: (requests) async => const AuthorizationResult(
-          status: AuthorizationStatus.error,
-        ),
+        applePerformRequests: (requests) async =>
+            const AuthorizationResult(status: AuthorizationStatus.error),
       );
 
       expect(
@@ -584,9 +583,8 @@ void main() {
 
     test('throws on cancelled status', () {
       UnifiedAuthentication.setSocialProvidersForTesting(
-        applePerformRequests: (requests) async => const AuthorizationResult(
-          status: AuthorizationStatus.cancelled,
-        ),
+        applePerformRequests: (requests) async =>
+            const AuthorizationResult(status: AuthorizationStatus.cancelled),
       );
 
       expect(
@@ -612,9 +610,9 @@ void main() {
       UnifiedAuthentication.setSocialProvidersForTesting(
         facebookLogin: ({required List<String> permissions}) async =>
             LoginResult(
-          status: LoginStatus.success,
-          accessToken: FakeAccessToken(),
-        ),
+              status: LoginStatus.success,
+              accessToken: FakeAccessToken(),
+            ),
       );
 
       final result = await authService.signInWithFacebook();

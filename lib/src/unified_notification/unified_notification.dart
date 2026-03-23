@@ -42,10 +42,10 @@ class UnifiedNotification {
       FlutterLocalNotificationsPlugin();
 
   // Injectable wrappers for static FirebaseMessaging streams/methods.
-  Stream<RemoteMessage> Function() _onMessageStream =
-      () => FirebaseMessaging.onMessage;
-  Stream<RemoteMessage> Function() _onMessageOpenedAppStream =
-      () => FirebaseMessaging.onMessageOpenedApp;
+  Stream<RemoteMessage> Function() _onMessageStream = () =>
+      FirebaseMessaging.onMessage;
+  Stream<RemoteMessage> Function() _onMessageOpenedAppStream = () =>
+      FirebaseMessaging.onMessageOpenedApp;
   void Function(Future<void> Function(RemoteMessage)) _onBackgroundMessage =
       FirebaseMessaging.onBackgroundMessage;
 

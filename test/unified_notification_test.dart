@@ -109,7 +109,7 @@ class FakeFlutterLocalNotificationsPlugin extends Fake
     required InitializationSettings settings,
     DidReceiveNotificationResponseCallback? onDidReceiveNotificationResponse,
     DidReceiveBackgroundNotificationResponseCallback?
-        onDidReceiveBackgroundNotificationResponse,
+    onDidReceiveBackgroundNotificationResponse,
   }) async {
     initializeCalled = true;
     notificationResponseCallback = onDidReceiveNotificationResponse;
@@ -118,7 +118,8 @@ class FakeFlutterLocalNotificationsPlugin extends Fake
 
   @override
   T? resolvePlatformSpecificImplementation<
-      T extends FlutterLocalNotificationsPlatform>() {
+    T extends FlutterLocalNotificationsPlatform
+  >() {
     if (androidPlugin != null && T == AndroidFlutterLocalNotificationsPlugin) {
       return androidPlugin as T;
     }
@@ -304,23 +305,28 @@ void main() {
       expect(fakeLocalNotifications.initializeCalled, isTrue);
     });
 
-    test('creates Android notification channel when platform is available',
-        () async {
-      final fakeAndroid = FakeAndroidFlutterLocalNotificationsPlugin();
-      fakeLocalNotifications.androidPlugin = fakeAndroid;
+    test(
+      'creates Android notification channel when platform is available',
+      () async {
+        final fakeAndroid = FakeAndroidFlutterLocalNotificationsPlugin();
+        fakeLocalNotifications.androidPlugin = fakeAndroid;
 
-      await notificationService.init(
-        onOpenNotification: (_) {},
-        defaultIcon: 'test_icon',
-      );
+        await notificationService.init(
+          onOpenNotification: (_) {},
+          defaultIcon: 'test_icon',
+        );
 
-      expect(fakeAndroid.createChannelCalled, isTrue);
-    });
+        expect(fakeAndroid.createChannelCalled, isTrue);
+      },
+    );
 
     test('processes initial message from getInitialMessage', () async {
       fakeMessaging.initialMessage = const RemoteMessage(
         messageId: 'initial-msg',
-        notification: RemoteNotification(title: 'Init Title', body: 'Init Body'),
+        notification: RemoteNotification(
+          title: 'Init Title',
+          body: 'Init Body',
+        ),
       );
 
       final onMessageController = StreamController<RemoteMessage>.broadcast();
@@ -357,8 +363,8 @@ void main() {
 
       UnifiedNotification.setDependenciesForTesting(
         onMessageStream: () => onMessageController.stream,
-        onMessageOpenedAppStream:
-            () => StreamController<RemoteMessage>.broadcast().stream,
+        onMessageOpenedAppStream: () =>
+            StreamController<RemoteMessage>.broadcast().stream,
         onBackgroundMessage: (_) {},
       );
 
@@ -410,8 +416,8 @@ void main() {
           StreamController<RemoteMessage>.broadcast();
 
       UnifiedNotification.setDependenciesForTesting(
-        onMessageStream:
-            () => StreamController<RemoteMessage>.broadcast().stream,
+        onMessageStream: () =>
+            StreamController<RemoteMessage>.broadcast().stream,
         onMessageOpenedAppStream: () => onMessageOpenedAppController.stream,
         onBackgroundMessage: (_) {},
       );
@@ -496,30 +502,33 @@ void main() {
       expect(callbackCalled, isFalse);
     });
 
-    test('invokes onOpenNotification with null for malformed payload', () async {
-      RemoteMessage? receivedMessage;
-      bool callbackCalled = false;
+    test(
+      'invokes onOpenNotification with null for malformed payload',
+      () async {
+        RemoteMessage? receivedMessage;
+        bool callbackCalled = false;
 
-      await notificationService.init(
-        onOpenNotification: (msg) {
-          callbackCalled = true;
-          receivedMessage = msg;
-        },
-        defaultIcon: 'test_icon',
-      );
+        await notificationService.init(
+          onOpenNotification: (msg) {
+            callbackCalled = true;
+            receivedMessage = msg;
+          },
+          defaultIcon: 'test_icon',
+        );
 
-      // Simulate malformed JSON payload
-      fakeLocalNotifications.notificationResponseCallback?.call(
-        const NotificationResponse(
-          notificationResponseType:
-              NotificationResponseType.selectedNotification,
-          payload: 'not-valid-json',
-        ),
-      );
+        // Simulate malformed JSON payload
+        fakeLocalNotifications.notificationResponseCallback?.call(
+          const NotificationResponse(
+            notificationResponseType:
+                NotificationResponseType.selectedNotification,
+            payload: 'not-valid-json',
+          ),
+        );
 
-      expect(callbackCalled, isTrue);
-      expect(receivedMessage, isNull);
-    });
+        expect(callbackCalled, isTrue);
+        expect(receivedMessage, isNull);
+      },
+    );
   });
 
   group('getFcmToken', () {

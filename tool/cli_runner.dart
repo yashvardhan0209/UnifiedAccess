@@ -47,8 +47,9 @@ class CliRunner {
       if (paths.hasAndroid) {
         logger.success('Android project found');
       } else {
-        logger
-            .warning('Android project not found (android/ directory missing)');
+        logger.warning(
+          'Android project not found (android/ directory missing)',
+        );
       }
       if (paths.hasIos) {
         logger.success('iOS project found');
@@ -58,7 +59,8 @@ class CliRunner {
 
       if (!paths.hasAndroid && !paths.hasIos) {
         logger.error(
-            'No platform directories found. Run "flutter create ." first.');
+          'No platform directories found. Run "flutter create ." first.',
+        );
         return 1;
       }
 
@@ -75,8 +77,10 @@ class CliRunner {
       }
 
       final enableGoogle = await prompt.confirm('Enable Google Sign-In?');
-      final enableFacebook =
-          await prompt.confirm('Enable Facebook Login?', defaultYes: false);
+      final enableFacebook = await prompt.confirm(
+        'Enable Facebook Login?',
+        defaultYes: false,
+      );
 
       String? fbAppId;
       String? fbClientToken;
@@ -84,8 +88,10 @@ class CliRunner {
       if (enableFacebook && !acceptAll) {
         fbAppId = await prompt.requiredText('Facebook App ID');
         fbClientToken = await prompt.requiredText('Facebook Client Token');
-        fbDisplayName =
-            await prompt.text('Facebook Display Name', defaultValue: 'My App');
+        fbDisplayName = await prompt.text(
+          'Facebook Display Name',
+          defaultValue: 'My App',
+        );
       }
 
       final enableApple = await prompt.confirm('Enable Apple Sign-In?');
@@ -120,7 +126,10 @@ class CliRunner {
 
         if (paths.androidAppBuildGradle != null) {
           logger.step(
-              step++, totalSteps, 'Patching android/app/build.gradle...');
+            step++,
+            totalSteps,
+            'Patching android/app/build.gradle...',
+          );
           await gradlePatcher.patchAppBuildGradle(
             paths.androidAppBuildGradle!,
             config,
@@ -140,7 +149,10 @@ class CliRunner {
 
         if (config.enableFacebookLogin) {
           logger.step(
-              step++, totalSteps, 'Configuring Facebook strings.xml...');
+            step++,
+            totalSteps,
+            'Configuring Facebook strings.xml...',
+          );
           await gradlePatcher.createStringsXml(paths.root, config, result);
         }
 
@@ -190,23 +202,28 @@ class CliRunner {
       // Common manual steps
       if (config.enablePushNotifications) {
         result.addManualStep(
-            'In Xcode: Enable "Push Notifications" capability for Runner target');
+          'In Xcode: Enable "Push Notifications" capability for Runner target',
+        );
         result.addManualStep(
-            'In Xcode: Enable "Background Modes" capability and check "Remote notifications"');
+          'In Xcode: Enable "Background Modes" capability and check "Remote notifications"',
+        );
         result.addManualStep(
-            'Upload APNs authentication key to Firebase Console');
+          'Upload APNs authentication key to Firebase Console',
+        );
       }
       if (config.enableAppleSignIn) {
-        result
-            .addManualStep('In Xcode: Enable "Sign in with Apple" capability');
+        result.addManualStep(
+          'In Xcode: Enable "Sign in with Apple" capability',
+        );
       }
 
       // Generate sample main.dart
       await _maybeGenerateSampleMain(prompt, logger, paths.root, result);
 
       result.addManualStep(
-          'Add an Android notification icon drawable matching the defaultIcon '
-          'string you pass to UnifiedNotification.init()');
+        'Add an Android notification icon drawable matching the defaultIcon '
+        'string you pass to UnifiedNotification.init()',
+      );
       if (paths.hasIos) {
         result.addManualStep('Run: cd ios && pod install');
       }
@@ -223,7 +240,8 @@ class CliRunner {
       logger.error('Unexpected error: $e');
       if (verbose) logger.detail(stack.toString());
       logger.error(
-          'Please report this at https://github.com/yashvardhan0209/UnifiedAccess/issues');
+        'Please report this at https://github.com/yashvardhan0209/UnifiedAccess/issues',
+      );
       return 1;
     }
   }
@@ -241,10 +259,12 @@ class CliRunner {
     }
 
     final generate = await prompt.confirm(
-        'Generate a sample main.dart with Firebase + Notification setup?');
+      'Generate a sample main.dart with Firebase + Notification setup?',
+    );
     if (!generate) {
       result.addManualStep(
-          'Add Firebase.initializeApp() in your main.dart before runApp()');
+        'Add Firebase.initializeApp() in your main.dart before runApp()',
+      );
       return;
     }
 
@@ -290,7 +310,9 @@ class MyApp extends StatelessWidget {
 }
 ''');
 
-    logger.success('Generated lib/main.dart with Firebase + Notification setup');
+    logger.success(
+      'Generated lib/main.dart with Firebase + Notification setup',
+    );
     result.addChange('lib/main.dart - Generated sample entry point');
   }
 
@@ -313,7 +335,8 @@ class MyApp extends StatelessWidget {
 
     logger.blank();
     logger.info(
-        'Run "dart run unified_access:setup" to fix issues automatically.');
+      'Run "dart run unified_access:setup" to fix issues automatically.',
+    );
     return 0;
   }
 

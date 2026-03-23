@@ -1,6 +1,6 @@
 name: unified_access
 description: Designed to simplify the integration of multiple authentication methods and notification services within your app.
-version: 2.0.0
+version: 2.0.1
 homepage: https://github.com/yashvardhan0209/UnifiedAccess.git
 repository: https://github.com/yashvardhan0209/UnifiedAccess
 issue_tracker: https://github.com/yashvardhan0209/UnifiedAccess/issues
@@ -26,7 +26,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_facebook_auth: ^7.1.6
-  flutter_local_notifications: ^20.1.0
+  flutter_local_notifications: ">=20.1.0 <22.0.0"
   freezed_annotation: ^3.1.0
   google_sign_in: ^7.2.0
   json_annotation: ^4.11.0

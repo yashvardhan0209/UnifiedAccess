@@ -38,10 +38,7 @@ class Logger {
 
   void banner() {
     blank();
-    stdout.writeln(_colorize(
-      '  UnifiedAccess Setup Tool',
-      _bold,
-    ));
+    stdout.writeln(_colorize('  UnifiedAccess Setup Tool', _bold));
     stdout.writeln('  Automates platform configuration for unified_access');
     blank();
   }

@@ -33,7 +33,8 @@ class Prompt {
     if (acceptAll) return '';
     if (!stdin.hasTerminal) {
       throw StateError(
-          'Cannot prompt for required input in non-interactive mode');
+        'Cannot prompt for required input in non-interactive mode',
+      );
     }
 
     while (true) {

@@ -24,19 +24,21 @@ class UnifiedAuthentication {
   // Injectable function wrappers for social sign-in providers.
   // These allow unit tests to replace static SDK calls with fakes.
   // coverage:ignore-start
-  Future<void> Function() _googleInitialize =
-      () => GoogleSignIn.instance.initialize();
-  Future<GoogleSignInAccount> Function() _googleAuthenticate =
-      () => GoogleSignIn.instance.authenticate();
-  Future<void> Function() _googleSignOut = () => GoogleSignIn.instance.signOut();
+  Future<void> Function() _googleInitialize = () =>
+      GoogleSignIn.instance.initialize();
+  Future<GoogleSignInAccount> Function() _googleAuthenticate = () =>
+      GoogleSignIn.instance.authenticate();
+  Future<void> Function() _googleSignOut = () =>
+      GoogleSignIn.instance.signOut();
 
   Future<AuthorizationResult> Function(List<AuthorizationRequest>)
-      _applePerformRequests = TheAppleSignIn.performRequests;
+  _applePerformRequests = TheAppleSignIn.performRequests;
 
   Future<LoginResult> Function({required List<String> permissions})
-      _facebookLogin = ({required List<String> permissions}) =>
-          FacebookAuth.instance.login(permissions: permissions);
-  Future<void> Function() _facebookLogOut = () => FacebookAuth.instance.logOut();
+  _facebookLogin = ({required List<String> permissions}) =>
+      FacebookAuth.instance.login(permissions: permissions);
+  Future<void> Function() _facebookLogOut = () =>
+      FacebookAuth.instance.logOut();
   // coverage:ignore-end
 
   /// Overrides the [FirebaseAuth] instance used by this service.
@@ -53,9 +55,9 @@ class UnifiedAuthentication {
     Future<GoogleSignInAccount> Function()? googleAuthenticate,
     Future<void> Function()? googleSignOut,
     Future<AuthorizationResult> Function(List<AuthorizationRequest>)?
-        applePerformRequests,
+    applePerformRequests,
     Future<LoginResult> Function({required List<String> permissions})?
-        facebookLogin,
+    facebookLogin,
     Future<void> Function()? facebookLogOut,
   }) {
     if (googleInitialize != null) {
@@ -251,11 +253,7 @@ class UnifiedAuthentication {
 
   /// Signs out from Firebase and all social providers (Google, Facebook).
   Future<void> firebaseSignOut() async {
-    await Future.wait([
-      _auth.signOut(),
-      _googleSignOut(),
-      _facebookLogOut(),
-    ]);
+    await Future.wait([_auth.signOut(), _googleSignOut(), _facebookLogOut()]);
   }
 
   // --------------------- Private Helper Methods -------------------------

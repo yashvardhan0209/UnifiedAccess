@@ -87,7 +87,8 @@ class ExampleApp extends StatelessWidget {
                               );
                             } on FirebaseAuthenticationException catch (e) {
                               debugPrint(
-                                  'Login failed (${e.code}): ${e.message}');
+                                'Login failed (${e.code}): ${e.message}',
+                              );
                             }
                           },
                           child: const Text('Email Login'),
@@ -99,7 +100,8 @@ class ExampleApp extends StatelessWidget {
                               await authService.signInWithGoogle();
                             } on FirebaseAuthenticationException catch (e) {
                               debugPrint(
-                                  'Google sign-in failed (${e.code}): ${e.message}');
+                                'Google sign-in failed (${e.code}): ${e.message}',
+                              );
                             }
                           },
                           child: const Text('Google Sign-In'),

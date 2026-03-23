@@ -27,14 +27,18 @@ class IosValidator {
 
     if (podfilePath != null) {
       final content = File(podfilePath).readAsStringSync();
-      final match =
-          RegExp(r"platform\s*:ios\s*,\s*'(\d+\.?\d*)'").firstMatch(content);
+      final match = RegExp(
+        r"platform\s*:ios\s*,\s*'(\d+\.?\d*)'",
+      ).firstMatch(content);
       if (match != null) {
         final ver = double.tryParse(match.group(1)!) ?? 0;
-        _check('Minimum iOS version >= 13.0', ver >= 13.0,
-            detail: ver < 13.0
-                ? 'Current: ${match.group(1)}, needs >= 13.0'
-                : null);
+        _check(
+          'Minimum iOS version >= 13.0',
+          ver >= 13.0,
+          detail: ver < 13.0
+              ? 'Current: ${match.group(1)}, needs >= 13.0'
+              : null,
+        );
       } else {
         _logger.warning('Could not detect platform version in Podfile');
       }

@@ -6,17 +6,29 @@ import '../tool/cli_runner.dart';
 
 void main(List<String> arguments) async {
   final parser = ArgParser()
-    ..addFlag('check',
-        help: 'Only validate current setup without modifying files',
-        defaultsTo: false)
-    ..addFlag('yes',
-        abbr: 'y',
-        help: 'Accept all defaults without prompting (enables all features)',
-        defaultsTo: false)
-    ..addFlag('verbose',
-        abbr: 'v', help: 'Show detailed output', defaultsTo: false)
-    ..addFlag('help',
-        abbr: 'h', help: 'Show usage information', defaultsTo: false);
+    ..addFlag(
+      'check',
+      help: 'Only validate current setup without modifying files',
+      defaultsTo: false,
+    )
+    ..addFlag(
+      'yes',
+      abbr: 'y',
+      help: 'Accept all defaults without prompting (enables all features)',
+      defaultsTo: false,
+    )
+    ..addFlag(
+      'verbose',
+      abbr: 'v',
+      help: 'Show detailed output',
+      defaultsTo: false,
+    )
+    ..addFlag(
+      'help',
+      abbr: 'h',
+      help: 'Show usage information',
+      defaultsTo: false,
+    );
 
   final ArgResults results;
   try {
@@ -32,7 +44,8 @@ void main(List<String> arguments) async {
     stdout.writeln('UnifiedAccess Setup Tool');
     stdout.writeln('');
     stdout.writeln(
-        'Automates platform configuration for the unified_access package.');
+      'Automates platform configuration for the unified_access package.',
+    );
     stdout.writeln('');
     stdout.writeln('Usage: dart run unified_access:setup [options]');
     stdout.writeln('');

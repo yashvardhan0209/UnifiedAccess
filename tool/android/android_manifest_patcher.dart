@@ -61,10 +61,16 @@ class AndroidManifestPatcher {
     // Facebook configuration
     if (config.enableFacebookLogin) {
       if (!_hasMetaData(application, 'com.facebook.sdk.ApplicationId')) {
-        _addMetaData(application, 'com.facebook.sdk.ApplicationId',
-            '@string/facebook_app_id');
-        _addMetaData(application, 'com.facebook.sdk.ClientToken',
-            '@string/facebook_client_token');
+        _addMetaData(
+          application,
+          'com.facebook.sdk.ApplicationId',
+          '@string/facebook_app_id',
+        );
+        _addMetaData(
+          application,
+          'com.facebook.sdk.ClientToken',
+          '@string/facebook_client_token',
+        );
         _addFacebookActivities(application);
         _logger.success('Added Facebook configuration to AndroidManifest');
         modified = true;
@@ -75,7 +81,8 @@ class AndroidManifestPatcher {
 
     if (modified) {
       file.writeAsStringSync(
-          document.toXmlString(pretty: true, indent: '    '));
+        document.toXmlString(pretty: true, indent: '    '),
+      );
       result.addChange('AndroidManifest.xml - Added permissions and metadata');
     } else {
       // Remove unnecessary backup
@@ -85,9 +92,9 @@ class AndroidManifestPatcher {
   }
 
   bool _hasPermission(XmlElement manifest, String permissionName) {
-    return manifest.findElements('uses-permission').any(
-          (e) => e.getAttribute('android:name') == permissionName,
-        );
+    return manifest
+        .findElements('uses-permission')
+        .any((e) => e.getAttribute('android:name') == permissionName);
   }
 
   void _addPermission(XmlElement manifest, String permissionName) {
@@ -102,26 +109,32 @@ class AndroidManifestPatcher {
   }
 
   bool _hasMetaData(XmlElement application, String name) {
-    return application.findElements('meta-data').any(
-          (e) => e.getAttribute('android:name') == name,
-        );
+    return application
+        .findElements('meta-data')
+        .any((e) => e.getAttribute('android:name') == name);
   }
 
   void _addMetaData(XmlElement application, String name, String value) {
-    application.children.add(XmlElement(XmlName('meta-data'), [
-      XmlAttribute(XmlName('android:name'), name),
-      XmlAttribute(XmlName('android:value'), value),
-    ]));
+    application.children.add(
+      XmlElement(XmlName('meta-data'), [
+        XmlAttribute(XmlName('android:name'), name),
+        XmlAttribute(XmlName('android:value'), value),
+      ]),
+    );
   }
 
   void _addFacebookActivities(XmlElement application) {
     // FacebookActivity
-    application.children.add(XmlElement(XmlName('activity'), [
-      XmlAttribute(XmlName('android:name'), 'com.facebook.FacebookActivity'),
-      XmlAttribute(XmlName('android:configChanges'),
-          'keyboard|keyboardHidden|screenLayout|screenSize|orientation'),
-      XmlAttribute(XmlName('android:label'), '@string/app_name'),
-    ]));
+    application.children.add(
+      XmlElement(XmlName('activity'), [
+        XmlAttribute(XmlName('android:name'), 'com.facebook.FacebookActivity'),
+        XmlAttribute(
+          XmlName('android:configChanges'),
+          'keyboard|keyboardHidden|screenLayout|screenSize|orientation',
+        ),
+        XmlAttribute(XmlName('android:label'), '@string/app_name'),
+      ]),
+    );
 
     // CustomTabActivity with intent-filter
     final intentFilter = XmlElement(XmlName('intent-filter'), [], [
@@ -130,25 +143,36 @@ class AndroidManifestPatcher {
       ]),
       XmlElement(XmlName('category'), [
         XmlAttribute(
-            XmlName('android:name'), 'android.intent.category.DEFAULT'),
+          XmlName('android:name'),
+          'android.intent.category.DEFAULT',
+        ),
       ]),
       XmlElement(XmlName('category'), [
         XmlAttribute(
-            XmlName('android:name'), 'android.intent.category.BROWSABLE'),
+          XmlName('android:name'),
+          'android.intent.category.BROWSABLE',
+        ),
       ]),
       XmlElement(XmlName('data'), [
         XmlAttribute(
-            XmlName('android:scheme'), '@string/fb_login_protocol_scheme'),
+          XmlName('android:scheme'),
+          '@string/fb_login_protocol_scheme',
+        ),
       ]),
     ]);
 
-    application.children.add(XmlElement(
-      XmlName('activity'),
-      [
-        XmlAttribute(XmlName('android:name'), 'com.facebook.CustomTabActivity'),
-        XmlAttribute(XmlName('android:exported'), 'true'),
-      ],
-      [intentFilter],
-    ));
+    application.children.add(
+      XmlElement(
+        XmlName('activity'),
+        [
+          XmlAttribute(
+            XmlName('android:name'),
+            'com.facebook.CustomTabActivity',
+          ),
+          XmlAttribute(XmlName('android:exported'), 'true'),
+        ],
+        [intentFilter],
+      ),
+    );
   }
 }

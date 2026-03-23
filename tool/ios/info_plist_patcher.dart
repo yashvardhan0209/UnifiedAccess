@@ -42,17 +42,23 @@ class InfoPlistPatcher {
         // Check if remote-notification is in the existing array
         final array = _getPlistValue(dict, 'UIBackgroundModes');
         if (array != null && array.localName == 'array') {
-          final values =
-              array.findElements('string').map((e) => e.innerText).toSet();
+          final values = array
+              .findElements('string')
+              .map((e) => e.innerText)
+              .toSet();
           if (!values.contains('remote-notification')) {
-            array.children.add(XmlElement(
-                XmlName('string'), [], [XmlText('remote-notification')]));
+            array.children.add(
+              XmlElement(XmlName('string'), [], [
+                XmlText('remote-notification'),
+              ]),
+            );
             _logger.success('Added remote-notification to UIBackgroundModes');
             modified = true;
           }
           if (!values.contains('fetch')) {
-            array.children
-                .add(XmlElement(XmlName('string'), [], [XmlText('fetch')]));
+            array.children.add(
+              XmlElement(XmlName('string'), [], [XmlText('fetch')]),
+            );
             _logger.success('Added fetch to UIBackgroundModes');
             modified = true;
           }
@@ -65,8 +71,9 @@ class InfoPlistPatcher {
 
     // Google Sign-In URL scheme
     if (config.enableGoogleSignIn) {
-      final reversedClientId =
-          _extractReversedClientId(googleServiceInfoPlistPath);
+      final reversedClientId = _extractReversedClientId(
+        googleServiceInfoPlistPath,
+      );
       if (reversedClientId != null) {
         if (!_hasUrlScheme(dict, reversedClientId)) {
           _addUrlScheme(dict, reversedClientId);
@@ -92,9 +99,15 @@ class InfoPlistPatcher {
       if (!_hasPlistKey(dict, 'FacebookAppID')) {
         _addPlistString(dict, 'FacebookAppID', config.facebookAppId!);
         _addPlistString(
-            dict, 'FacebookClientToken', config.facebookClientToken ?? '');
+          dict,
+          'FacebookClientToken',
+          config.facebookClientToken ?? '',
+        );
         _addPlistString(
-            dict, 'FacebookDisplayName', config.facebookDisplayName ?? '');
+          dict,
+          'FacebookDisplayName',
+          config.facebookDisplayName ?? '',
+        );
 
         // Add fb URL scheme
         _addUrlScheme(dict, 'fb${config.facebookAppId}');
@@ -159,11 +172,13 @@ class InfoPlistPatcher {
 
   void _addPlistArray(XmlElement dict, String key, List<String> values) {
     dict.children.add(XmlElement(XmlName('key'), [], [XmlText(key)]));
-    dict.children.add(XmlElement(
-      XmlName('array'),
-      [],
-      values.map((v) => XmlElement(XmlName('string'), [], [XmlText(v)])),
-    ));
+    dict.children.add(
+      XmlElement(
+        XmlName('array'),
+        [],
+        values.map((v) => XmlElement(XmlName('string'), [], [XmlText(v)])),
+      ),
+    );
   }
 
   bool _hasUrlScheme(XmlElement dict, String scheme) {
@@ -188,8 +203,9 @@ class InfoPlistPatcher {
 
     if (urlTypes == null) {
       // Create CFBundleURLTypes array
-      dict.children
-          .add(XmlElement(XmlName('key'), [], [XmlText('CFBundleURLTypes')]));
+      dict.children.add(
+        XmlElement(XmlName('key'), [], [XmlText('CFBundleURLTypes')]),
+      );
       urlTypes = XmlElement(XmlName('array'));
       dict.children.add(urlTypes);
     }

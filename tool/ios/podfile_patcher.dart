@@ -28,11 +28,13 @@ class PodfilePatcher {
         );
         file.writeAsStringSync(content);
         _logger.success(
-            'Updated minimum iOS version from ${match.group(1)} to 13.0');
+          'Updated minimum iOS version from ${match.group(1)} to 13.0',
+        );
         result.addChange('ios/Podfile - Updated minimum iOS version to 13.0');
       } else {
         _logger.detail(
-            'Podfile minimum iOS version is ${match.group(1)} (>= 13.0)');
+          'Podfile minimum iOS version is ${match.group(1)} (>= 13.0)',
+        );
       }
     } else {
       _logger.warning(
